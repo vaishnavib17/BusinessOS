@@ -2744,11 +2744,407 @@ API Execution
 
 ---
 
-Save and commit:
+# 10. Authentication & Authorization Design
 
-```bash
-git add docs/System_Design_Document.md
+## 10.1 Overview
 
-git commit -m "docs: add api design"
+BusinessOS uses a secure authentication and authorization system to protect user accounts, company data, and application resources.
 
-git push origin main
+The system implements:
+
+- Authentication using JWT tokens.
+- Authorization using Role-Based Access Control (RBAC).
+- Multi-company data isolation.
+- Secure password management.
+
+---
+
+# 10.2 Authentication Flow
+
+Authentication verifies the identity of users.
+
+Flow:
+
+
+User
+
+↓
+
+Enter Email + Password
+
+↓
+
+FastAPI Authentication API
+
+↓
+
+Verify Password Hash
+
+↓
+
+Generate JWT Token
+
+↓
+
+Return Access Token
+
+↓
+
+Frontend Stores Token
+
+↓
+
+User Accesses Protected APIs
+
+
+---
+
+# 10.3 User Registration Flow
+
+Process:
+
+
+User Registration
+
+↓
+
+Validate User Information
+
+↓
+
+Create Company
+
+↓
+
+Create User Account
+
+↓
+
+Assign Default Role
+
+↓
+
+Hash Password
+
+↓
+
+Store User Data
+
+↓
+
+Return Success Response
+
+
+Example:
+
+New startup registers:
+
+
+Company:
+ABC Technologies
+
+User:
+John Doe
+
+Role:
+Company Admin
+
+
+---
+
+# 10.4 Login Flow
+
+Process:
+
+
+User Login Request
+
+↓
+
+Check Email Exists
+
+↓
+
+Verify Password
+
+↓
+
+Generate JWT Token
+
+↓
+
+Return Token
+
+↓
+
+Access Dashboard
+
+
+---
+
+# 10.5 JWT Authentication
+
+BusinessOS uses JSON Web Tokens for API authentication.
+
+JWT contains:
+
+```json
+{
+  "user_id": "uuid",
+  "company_id": "uuid",
+  "role": "admin",
+  "expires": "timestamp"
+}
+
+The backend validates this token for every protected request.
+
+Example:
+
+Request Header:
+
+Authorization:
+Bearer <jwt_token>
+10.6 Password Security
+
+Passwords are never stored directly.
+
+Process:
+
+User Password
+
+↓
+
+bcrypt Hashing
+
+↓
+
+Encrypted Password
+
+↓
+
+Database Storage
+
+Example:
+
+Original:
+
+password123
+
+Stored:
+
+$2b$12$encrypted_hash
+10.7 Authorization (RBAC)
+
+Authorization determines what users are allowed to do.
+
+BusinessOS uses Role-Based Access Control.
+
+Structure:
+
+User
+
+↓
+
+Role
+
+↓
+
+Permissions
+
+↓
+
+Resources
+10.8 User Roles
+Super Admin
+
+Platform-level access.
+
+Permissions:
+
+Manage all companies.
+Manage subscriptions.
+View platform analytics.
+Company Admin
+
+Company-level administrator.
+
+Permissions:
+
+Manage employees.
+Manage departments.
+Configure company settings.
+Access all company modules.
+HR Manager
+
+Permissions:
+
+Create jobs.
+View candidates.
+Manage recruitment workflows.
+Sales Manager
+
+Permissions:
+
+Manage leads.
+View sales pipeline.
+Access sales analytics.
+Marketing Manager
+
+Permissions:
+
+Create campaigns.
+Generate marketing content.
+View campaign analytics.
+Support Manager
+
+Permissions:
+
+Manage tickets.
+Configure support workflows.
+Employee
+
+Permissions:
+
+Access assigned features.
+View permitted information.
+10.9 Permission Management
+
+Future implementation:
+
+Permissions table:
+
+permissions
+
+id
+name
+description
+
+Role permissions:
+
+role_permissions
+
+role_id
+permission_id
+
+Example:
+
+HR Manager
+
+↓
+
+CREATE_JOB
+VIEW_CANDIDATE
+UPDATE_INTERVIEW
+10.10 Multi-Tenant Security
+
+BusinessOS follows a multi-tenant architecture.
+
+Every request contains:
+
+user_id
+
+company_id
+
+role
+
+Example:
+
+Company A user:
+
+company_id = A
+
+can only access:
+
+Company A Data
+
+Cannot access:
+
+Company B Data
+10.11 Data Access Flow
+API Request
+
+↓
+
+JWT Validation
+
+↓
+
+Extract company_id
+
+↓
+
+Check User Permission
+
+↓
+
+Apply Company Filter
+
+↓
+
+Access Database
+
+↓
+
+Return Response
+10.12 Frontend Authentication Flow
+
+Frontend:
+
+Login Page
+
+↓
+
+Send Credentials
+
+↓
+
+Receive JWT
+
+↓
+
+Store Authentication State
+
+↓
+
+Redirect Dashboard
+
+↓
+
+Access Protected Routes
+
+Protected routes:
+
+/dashboard
+/hr
+/sales
+/marketing
+/support
+/settings
+10.13 Session Management
+
+The system handles:
+
+Token expiration.
+Automatic logout.
+Unauthorized access handling.
+Secure token refresh.
+10.14 Authentication Technology
+Component	Technology
+Authentication	JWT
+Password Hashing	bcrypt
+Backend Security	FastAPI Middleware
+Database	PostgreSQL
+User Management	Custom RBAC
+10.15 Security Best Practices
+
+BusinessOS follows:
+
+Never store plain passwords.
+Validate all API inputs.
+Protect sensitive routes.
+Use HTTPS in production.
+Store secrets in environment variables.
+Apply least privilege access.
+Maintain audit logs.
+
+
