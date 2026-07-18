@@ -4014,3 +4014,491 @@ Future versions can include:
 - Advanced business analytics.
 - Predictive recommendations.
 - Custom AI agents per company.
+
+
+# 13. Workflow Automation Design
+
+## 13.1 Overview
+
+BusinessOS uses workflow automation to reduce manual tasks and connect different business processes.
+
+The automation layer is responsible for:
+
+- Sending notifications.
+- Triggering emails.
+- Scheduling events.
+- Updating records.
+- Connecting external applications.
+
+The primary automation tool used is:
+
+- n8n
+
+---
+
+# 13.2 Automation Architecture
+
+             Business Event
+
+                   |
+
+                   ↓
+
+          FastAPI Backend
+
+                   |
+
+                   ↓
+
+          Event Trigger
+
+                   |
+
+                   ↓
+
+                n8n
+
+                   |
+
+    --------------------------------
+
+    |              |               |
+
+  Gmail        Calendar        Slack
+
+    |
+
+    ↓
+
+ User Notification
+
+---
+
+# 13.3 Event Driven Workflow
+
+BusinessOS follows an event-based approach.
+
+Example:
+
+Event:
+
+
+New Candidate Applied
+
+
+Triggers:
+
+
+Resume Processing
+
+↓
+
+HR Agent Analysis
+
+↓
+
+Store Candidate Score
+
+↓
+
+Notify HR Manager
+
+↓
+
+Schedule Interview
+
+
+---
+
+# 13.4 n8n Integration
+
+n8n acts as the workflow orchestration engine.
+
+Responsibilities:
+
+- Connect external services.
+- Execute automated workflows.
+- Handle scheduled tasks.
+- Manage API integrations.
+
+---
+
+# 13.5 HR Automation Workflows
+
+## Resume Processing Workflow
+
+Trigger:
+
+
+Candidate uploads resume
+
+
+Flow:
+
+
+Resume Upload
+
+↓
+
+FastAPI API
+
+↓
+
+n8n Trigger
+
+↓
+
+Extract Resume Data
+
+↓
+
+AI HR Agent
+
+↓
+
+Generate ATS Score
+
+↓
+
+Save Result
+
+↓
+
+Notify HR
+
+
+---
+
+## Interview Scheduling Workflow
+
+Trigger:
+
+
+Candidate shortlisted
+
+
+Flow:
+
+
+Candidate Selected
+
+↓
+
+n8n Workflow
+
+↓
+
+Google Calendar API
+
+↓
+
+Create Interview Event
+
+↓
+
+Send Email Invitation
+
+↓
+
+Update Interview Status
+
+
+---
+
+# 13.6 Sales Automation Workflows
+
+## Lead Follow-up Workflow
+
+Trigger:
+
+
+New Lead Created
+
+
+Flow:
+
+
+Lead Creation
+
+↓
+
+Sales Agent Analysis
+
+↓
+
+Generate Follow-up Message
+
+↓
+
+Send Email
+
+↓
+
+Create Reminder
+
+↓
+
+Update Lead Activity
+
+
+---
+
+## Lead Notification Workflow
+
+Trigger:
+
+
+High-value lead detected
+
+
+Flow:
+
+
+Sales Agent
+
+↓
+
+Priority Detection
+
+↓
+
+n8n
+
+↓
+
+Notify Sales Manager
+
+↓
+
+Create Task
+
+
+---
+
+# 13.7 Marketing Automation Workflows
+
+## Content Generation Workflow
+
+Trigger:
+
+
+Marketing Request
+
+
+Flow:
+
+
+User Input
+
+↓
+
+Marketing Agent
+
+↓
+
+Generate Content
+
+↓
+
+Store Draft
+
+↓
+
+Send For Approval
+
+↓
+
+Publish
+
+
+---
+
+## Campaign Reminder Workflow
+
+Trigger:
+
+
+Campaign Deadline Approaching
+
+
+Flow:
+
+
+Scheduler
+
+↓
+
+Check Campaign Dates
+
+↓
+
+Send Reminder
+
+↓
+
+Update Status
+
+
+---
+
+# 13.8 Support Automation Workflows
+
+## Ticket Creation Workflow
+
+Trigger:
+
+
+Customer Creates Ticket
+
+
+Flow:
+
+
+New Ticket
+
+↓
+
+Support Agent
+
+↓
+
+Classify Issue
+
+↓
+
+Find Knowledge
+
+↓
+
+Generate Response
+
+↓
+
+Assign Priority
+
+↓
+
+Notify Support Team
+
+
+---
+
+# 13.9 Notification Architecture
+
+Notifications are generated from system events.
+
+Example:
+
+
+System Event
+
+↓
+
+Notification Service
+
+↓
+
+User Notification Table
+
+↓
+
+Frontend Notification Bell
+
+
+Notification channels:
+
+- In-app notification.
+- Email.
+- Slack.
+- Calendar.
+
+---
+
+# 13.10 External Integrations
+
+## Gmail Integration
+
+Used for:
+
+- Sending emails.
+- Candidate communication.
+- Customer responses.
+
+---
+
+## Google Calendar Integration
+
+Used for:
+
+- Interview scheduling.
+- Meetings.
+- Reminders.
+
+---
+
+## Slack Integration
+
+Used for:
+
+- Team notifications.
+- Important alerts.
+- Workflow updates.
+
+---
+
+# 13.11 Background Task Processing
+
+Long-running operations should run asynchronously.
+
+Examples:
+
+- Resume analysis.
+- Document processing.
+- AI generation.
+- Email sending.
+
+Architecture:
+
+
+API Request
+
+↓
+
+Background Worker
+
+↓
+
+Process Task
+
+↓
+
+Update Database
+
+↓
+
+Notify User
+
+
+---
+
+# 13.12 Automation Security
+
+Automation workflows must ensure:
+
+- Secure API keys.
+- Permission validation.
+- User authorization.
+- Company-level access control.
+- Encrypted credentials.
+
+---
+
+# 13.13 Automation Benefits
+
+The workflow system provides:
+
+- Reduced manual work.
+- Faster operations.
+- Consistent processes.
+- Better productivity.
+- AI-powered automation.
