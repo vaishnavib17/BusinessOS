@@ -3148,3 +3148,348 @@ Apply least privilege access.
 Maintain audit logs.
 
 
+# 11. Multi-Tenant Architecture
+
+## 11.1 Overview
+
+BusinessOS follows a multi-tenant SaaS architecture.
+
+A single application instance serves multiple companies while ensuring complete separation of business data.
+
+Each company operates inside its own workspace called a tenant.
+
+Example:
+
+
+BusinessOS Platform
+
+    |
+
+| |
+
+Company A Company B
+
+Users Users
+
+Jobs Jobs
+
+Leads Leads
+
+Tickets Tickets
+
+Documents Documents
+
+
+---
+
+# 11.2 Multi-Tenant Model
+
+BusinessOS uses a shared database with tenant isolation.
+
+Architecture:
+
+             BusinessOS
+
+                 |
+
+          PostgreSQL Database
+
+                 |
+
+    ---------------------------
+
+    |                         |
+
+company_id = A company_id = B
+
+Company A Data Company B Data
+
+
+Every business-related table contains:
+
+
+company_id
+
+
+which identifies the owner of the data.
+
+---
+
+# 11.3 Tenant Identification Flow
+
+When a user logs in:
+
+
+User Login
+
+↓
+
+Authentication
+
+↓
+
+JWT Token Generated
+
+↓
+
+Token Contains:
+
+user_id
+company_id
+role
+
+↓
+
+Every API Request Uses company_id
+
+↓
+
+Database Query Filtered
+
+↓
+
+Return Only Tenant Data
+
+
+---
+
+# 11.4 Database Isolation Strategy
+
+All tenant-specific tables include:
+
+
+company_id UUID
+
+
+Example:
+
+Users table:
+
+| id | company_id | name |
+|-|-|-|
+| 1 | company_A | John |
+| 2 | company_B | Sarah |
+
+Query:
+
+```sql
+SELECT *
+FROM users
+WHERE company_id = current_company_id;
+
+Result:
+
+Only users belonging to that company are returned.
+
+11.5 Row Level Security (RLS)
+
+BusinessOS uses PostgreSQL Row Level Security for additional protection.
+
+Purpose:
+
+Prevent unauthorized access even if an incorrect query is executed.
+
+Example:
+
+Without RLS:
+
+User Request
+
+↓
+
+Database
+
+↓
+
+All Data Returned
+
+With RLS:
+
+User Request
+
+↓
+
+Database Policy Check
+
+↓
+
+Company Validation
+
+↓
+
+Only Allowed Rows Returned
+11.6 Tenant Data Flow
+
+Example: HR Resume Analysis
+
+Company Admin Uploads Resume
+
+↓
+
+Request Contains:
+
+user_id
+company_id
+
+↓
+
+FastAPI Validates User
+
+↓
+
+Resume Stored With company_id
+
+↓
+
+AI Analysis Runs
+
+↓
+
+Result Saved Under Same Company
+
+↓
+
+Only Company Members Can View Result
+11.7 Tenant Isolation Rules
+
+The system must ensure:
+
+Users cannot view another company's data.
+AI agents cannot access another tenant's knowledge.
+Documents remain company-specific.
+Notifications are tenant-specific.
+Reports are generated only from company data.
+11.8 AI Agent Tenant Isolation
+
+AI agents must also follow tenant boundaries.
+
+Example:
+
+Company A asks:
+
+"What is our leave policy?"
+
+AI searches:
+
+Company A Documents
+
+↓
+
+Vector Database
+
+↓
+
+Relevant Chunks
+
+↓
+
+Gemini Response
+
+It must never search:
+
+Company B Documents
+11.9 RAG Multi-Tenant Design
+
+Vector database structure:
+
+embeddings table
+
+id
+company_id
+document_id
+chunk_text
+embedding_vector
+
+Search:
+
+SELECT *
+FROM embeddings
+WHERE company_id = user_company_id;
+
+This ensures AI memory separation.
+
+11.10 Company Workspace
+
+Each tenant gets:
+
+Company Workspace
+
+├── Dashboard
+
+├── Employees
+
+├── HR Agent
+
+├── Sales Agent
+
+├── Marketing Agent
+
+├── Support Agent
+
+├── Documents
+
+├── Integrations
+
+└── Settings
+11.11 Tenant Lifecycle
+Company Creation
+User Signup
+
+↓
+
+Create Company
+
+↓
+
+Create Company Admin
+
+↓
+
+Initialize Workspace
+
+↓
+
+Enable Modules
+Company Deletion
+
+When a company is deleted:
+
+Remove company data.
+Remove documents.
+Remove AI embeddings.
+Cancel subscription.
+Maintain audit records.
+11.12 Future Scaling Approach
+
+Current:
+
+Shared Database
+
+company_id isolation
+
+Future enterprise version:
+
+Company A → Database A
+
+Company B → Database B
+
+This supports larger enterprise customers.
+
+11.13 Multi-Tenant Benefits
+
+Advantages:
+
+Lower infrastructure cost.
+Easy onboarding.
+Faster deployment.
+Centralized updates.
+SaaS scalability.
+11.14 Implementation Technologies
+Component	Technology
+Tenant Identification	JWT
+Database Isolation	company_id
+Security Layer	PostgreSQL RLS
+Database	Supabase PostgreSQL
+Backend Control	FastAPI Middleware
+
+
