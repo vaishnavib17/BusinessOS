@@ -1838,3 +1838,562 @@ Next part of Section 8 will cover:
 - Billing tables
 
 This will complete the full BusinessOS database architecture. 🚀
+
+# 8.6 Sales Module Database
+
+The Sales module manages customer acquisition, lead tracking, and sales workflows.
+
+Flow:
+
+
+Lead Creation
+
+↓
+
+Lead Qualification
+
+↓
+
+Opportunity
+
+↓
+
+Deal Closure
+
+↓
+
+Customer
+
+
+---
+
+# 10. Leads Table
+
+Stores potential customers.
+
+Table:
+
+
+leads
+
+
+Schema:
+
+| Column | Type | Description |
+|-|-|-|
+| id | UUID | Primary key |
+| company_id | UUID | Business owner |
+| assigned_to | UUID | Sales employee |
+| name | VARCHAR | Lead name |
+| email | VARCHAR | Contact email |
+| phone | VARCHAR | Contact number |
+| source | VARCHAR | Lead source |
+| status | VARCHAR | Lead stage |
+| notes | TEXT | Additional details |
+| created_at | TIMESTAMP | Creation date |
+
+Lead status examples:
+
+
+New
+Contacted
+Qualified
+Proposal Sent
+Negotiation
+Converted
+Lost
+
+
+---
+
+# 11. Opportunities Table
+
+Stores sales opportunities.
+
+Table:
+
+
+opportunities
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| lead_id | UUID |
+| value | DECIMAL |
+| probability | FLOAT |
+| stage | VARCHAR |
+| expected_close_date | DATE |
+
+---
+
+# 12. Sales Activities Table
+
+Tracks sales interactions.
+
+Table:
+
+
+sales_activities
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| lead_id | UUID |
+| user_id | UUID |
+| activity_type | VARCHAR |
+| description | TEXT |
+| created_at | TIMESTAMP |
+
+Examples:
+
+
+Email Sent
+Call Completed
+Meeting Scheduled
+Follow-up
+
+
+---
+
+# 8.7 Marketing Module Database
+
+The Marketing module manages content creation and campaigns.
+
+Flow:
+
+
+Campaign
+
+↓
+
+Content Generation
+
+↓
+
+Publishing
+
+↓
+
+Analytics
+
+
+---
+
+# 13. Campaigns Table
+
+Stores marketing campaigns.
+
+Table:
+
+
+campaigns
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| name | VARCHAR |
+| description | TEXT |
+| campaign_type | VARCHAR |
+| status | VARCHAR |
+| start_date | DATE |
+| end_date | DATE |
+
+---
+
+# 14. Marketing Contents Table
+
+Stores AI-generated marketing materials.
+
+Table:
+
+
+marketing_contents
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| campaign_id | UUID |
+| content_type | VARCHAR |
+| prompt | TEXT |
+| generated_content | TEXT |
+| created_by | UUID |
+| created_at | TIMESTAMP |
+
+Content types:
+
+
+Blog
+Social Media Post
+Email
+Advertisement
+Newsletter
+
+
+---
+
+# 15. Campaign Analytics Table
+
+Stores campaign performance.
+
+Table:
+
+
+campaign_analytics
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| campaign_id | UUID |
+| impressions | INTEGER |
+| clicks | INTEGER |
+| conversions | INTEGER |
+| recorded_at | TIMESTAMP |
+
+---
+
+# 8.8 Customer Support Database
+
+The Support module manages customer issues.
+
+Flow:
+
+
+Customer Query
+
+↓
+
+Ticket
+
+↓
+
+AI Support Agent
+
+↓
+
+Resolution
+
+
+---
+
+# 16. Customers Table
+
+Stores customer information.
+
+Table:
+
+
+customers
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| name | VARCHAR |
+| email | VARCHAR |
+| phone | VARCHAR |
+| created_at | TIMESTAMP |
+
+---
+
+# 17. Support Tickets Table
+
+Stores customer issues.
+
+Table:
+
+
+support_tickets
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| customer_id | UUID |
+| assigned_to | UUID |
+| title | VARCHAR |
+| description | TEXT |
+| priority | VARCHAR |
+| status | VARCHAR |
+| created_at | TIMESTAMP |
+
+Ticket status:
+
+
+Open
+In Progress
+Resolved
+Closed
+
+
+---
+
+# 18. Ticket Messages Table
+
+Stores ticket conversations.
+
+Table:
+
+
+ticket_messages
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| ticket_id | UUID |
+| sender_type | VARCHAR |
+| message | TEXT |
+| created_at | TIMESTAMP |
+
+Sender types:
+
+
+Customer
+Employee
+AI Agent
+
+
+---
+
+# 8.9 AI Memory and RAG Database
+
+BusinessOS uses Retrieval-Augmented Generation to provide company-specific AI knowledge.
+
+Flow:
+
+
+Document Upload
+
+↓
+
+Text Extraction
+
+↓
+
+Chunk Creation
+
+↓
+
+Embedding Generation
+
+↓
+
+Vector Search
+
+↓
+
+AI Response
+
+
+---
+
+# 19. Documents Table
+
+Stores company knowledge documents.
+
+Table:
+
+
+documents
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| uploaded_by | UUID |
+| file_name | VARCHAR |
+| file_url | TEXT |
+| document_type | VARCHAR |
+| created_at | TIMESTAMP |
+
+---
+
+# 20. Document Chunks Table
+
+Stores processed document sections.
+
+Table:
+
+
+document_chunks
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| document_id | UUID |
+| content | TEXT |
+| chunk_index | INTEGER |
+
+---
+
+# 21. Embeddings Table
+
+Stores vector representations.
+
+Table:
+
+
+embeddings
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| chunk_id | UUID |
+| embedding | VECTOR |
+| created_at | TIMESTAMP |
+
+Used by:
+
+- AI agents
+- Semantic search
+- Company knowledge retrieval
+
+---
+
+# 8.10 Notification Database
+
+# 22. Notifications Table
+
+Stores user notifications.
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| user_id | UUID |
+| title | VARCHAR |
+| message | TEXT |
+| type | VARCHAR |
+| is_read | BOOLEAN |
+| created_at | TIMESTAMP |
+
+---
+
+# 8.11 System Logging Database
+
+# 23. Activity Logs Table
+
+Tracks system activities.
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| user_id | UUID |
+| action | VARCHAR |
+| module | VARCHAR |
+| timestamp | TIMESTAMP |
+
+Examples:
+
+
+User Login
+Resume Uploaded
+Lead Created
+Ticket Updated
+
+
+---
+
+# 8.12 Billing Database
+
+# 24. Subscriptions Table
+
+Stores SaaS subscription information.
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| plan_name | VARCHAR |
+| status | VARCHAR |
+| start_date | DATE |
+| end_date | DATE |
+
+Plans:
+
+
+Free
+Starter
+Professional
+Enterprise
+
+
+---
+
+# 8.13 Final Database Relationship
+
+
+Company
+
+|
+
+├── Users
+
+├── Employees
+
+├── Jobs
+|
+└── Candidates
+|
+└── Resumes
+
+├── Leads
+|
+└── Opportunities
+
+├── Campaigns
+
+├── Customers
+|
+└── Support Tickets
+
+├── Documents
+|
+└── Embeddings
+
+├── Notifications
+
+├── Activity Logs
+
+└── Subscription
+
