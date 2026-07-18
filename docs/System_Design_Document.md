@@ -4502,3 +4502,485 @@ The workflow system provides:
 - Consistent processes.
 - Better productivity.
 - AI-powered automation.
+
+
+# 14. Frontend Architecture Design
+
+## 14.1 Overview
+
+BusinessOS frontend is built using Next.js and provides the user interface for managing business operations.
+
+The frontend is responsible for:
+
+- User interaction.
+- Dashboard visualization.
+- API communication.
+- Authentication handling.
+- AI assistant interface.
+- Data presentation.
+
+Technology Stack:
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Axios
+- React Hook Form
+
+---
+
+# 14.2 Frontend Architecture
+
+The frontend follows a modular component-based architecture.
+
+            User
+
+             |
+
+             ↓
+
+      Next.js Application
+
+             |
+
+--------------------------------
+
+|              |                |
+
+Pages Components Services
+
+|              |                |
+
+↓              ↓                ↓
+
+Routes UI Elements API Calls
+
+             |
+
+             ↓
+
+         FastAPI Backend
+
+---
+
+# 14.3 Next.js Project Structure
+
+
+frontend/
+
+app/
+
+├── page.tsx
+
+├── auth/
+
+│ ├── login/
+
+│ └── register/
+
+├── dashboard/
+
+│ └── page.tsx
+
+├── hr/
+
+│ ├── jobs/
+
+│ ├── candidates/
+
+│ └── resumes/
+
+├── sales/
+
+│ ├── leads/
+
+│ └── pipeline/
+
+├── marketing/
+
+│ ├── campaigns/
+
+│ └── content/
+
+├── support/
+
+│ ├── tickets/
+
+│ └── chat/
+
+├── settings/
+
+│ └── page.tsx
+
+components/
+
+├── Navbar
+
+├── Sidebar
+
+├── DashboardCard
+
+├── Charts
+
+├── AIChatBox
+
+services/
+
+├── api.ts
+
+├── auth.ts
+
+├── hr.ts
+
+├── sales.ts
+
+hooks/
+
+├── useAuth.ts
+
+├── useCompany.ts
+
+utils/
+
+├── validators.ts
+
+└── constants.ts
+
+
+---
+
+# 14.4 Application Pages
+
+## Authentication Pages
+
+### Login Page
+
+Purpose:
+
+Allow users to access their accounts.
+
+Features:
+
+- Email input.
+- Password input.
+- Authentication.
+- Redirect to dashboard.
+
+---
+
+### Registration Page
+
+Features:
+
+- Create account.
+- Create company workspace.
+- Assign company admin role.
+
+---
+
+# 14.5 Dashboard Architecture
+
+Dashboard provides business overview.
+
+Components:
+
+
+Dashboard
+
+├── Overview Cards
+
+├── Analytics Charts
+
+├── Recent Activities
+
+├── AI Insights
+
+└── Notifications
+
+
+Metrics:
+
+- Employees.
+- Jobs.
+- Leads.
+- Tickets.
+- Campaign performance.
+
+---
+
+# 14.6 HR Module UI Architecture
+
+Pages:
+
+
+HR Dashboard
+
+↓
+
+Jobs
+
+↓
+
+Candidates
+
+↓
+
+Resume Analysis
+
+↓
+
+Interview Management
+
+
+Components:
+
+- JobCard.
+- CandidateCard.
+- ATSScore.
+- ResumeViewer.
+- InterviewCalendar.
+
+---
+
+# 14.7 Sales Module UI Architecture
+
+Pages:
+
+
+Sales Dashboard
+
+↓
+
+Leads
+
+↓
+
+Pipeline
+
+↓
+
+Customer Details
+
+
+Components:
+
+- LeadCard.
+- PipelineBoard.
+- SalesChart.
+- FollowUpPanel.
+
+---
+
+# 14.8 Marketing Module UI Architecture
+
+Pages:
+
+
+Marketing Dashboard
+
+↓
+
+Campaigns
+
+↓
+
+AI Content Generator
+
+↓
+
+Analytics
+
+
+Components:
+
+- ContentEditor.
+- CampaignCard.
+- PerformanceChart.
+- AIWriter.
+
+---
+
+# 14.9 Support Module UI Architecture
+
+Pages:
+
+
+Support Dashboard
+
+↓
+
+Tickets
+
+↓
+
+Customer Chat
+
+↓
+
+Knowledge Base
+
+
+Components:
+
+- TicketCard.
+- ChatWindow.
+- AIResponseBox.
+- FAQSearch.
+
+---
+
+# 14.10 AI Assistant Interface
+
+BusinessOS includes a global AI assistant.
+
+Interface:
+
+    BusinessOS AI
+
+User:
+Analyze sales performance
+
+AI:
+Here are the insights...
+
+[ Ask Anything ]
+
+
+Features:
+
+- Chat interface.
+- Context awareness.
+- Company knowledge access.
+- Suggested actions.
+
+---
+
+# 14.11 State Management
+
+Frontend state management handles:
+
+- Authentication state.
+- User information.
+- Company information.
+- AI conversations.
+- Application data.
+
+Approach:
+
+Initial:
+
+- React Context API.
+
+Future:
+
+- Zustand / Redux Toolkit.
+
+---
+
+# 14.12 API Communication Layer
+
+Frontend communicates with backend through API services.
+
+Example:
+
+
+Component
+
+↓
+
+Service Function
+
+↓
+
+Axios Client
+
+↓
+
+FastAPI Endpoint
+
+↓
+
+Response
+
+↓
+
+Update UI
+
+
+---
+
+# 14.13 Authentication Handling
+
+Frontend authentication flow:
+
+
+Login Form
+
+↓
+
+Auth API
+
+↓
+
+Receive JWT Token
+
+↓
+
+Store Session
+
+↓
+
+Protect Routes
+
+↓
+
+Access Dashboard
+
+
+Protected pages:
+
+
+/dashboard
+
+/hr
+
+/sales
+
+/marketing
+
+/support
+
+/settings
+
+
+---
+
+# 14.14 UI Design Principles
+
+BusinessOS follows:
+
+- Clean enterprise dashboard design.
+- Responsive layout.
+- Consistent components.
+- Simple navigation.
+- Accessible UI.
+
+Design goals:
+
+- Easy for non-technical users.
+- Fast workflow completion.
+- Professional SaaS appearance.
+
+---
+
+# 14.15 Future Frontend Improvements
+
+Future versions:
+
+- Mobile application.
+- Custom dashboards.
+- Drag-and-drop workflows.
+- Advanced analytics.
+- Voice assistant interface.
+
