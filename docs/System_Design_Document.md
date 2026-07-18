@@ -3493,3 +3493,524 @@ Database	Supabase PostgreSQL
 Backend Control	FastAPI Middleware
 
 
+# 12. AI Agent Architecture
+
+## 12.1 Overview
+
+BusinessOS uses an agent-based AI architecture where specialized AI agents assist different business departments.
+
+Each AI agent is designed to:
+
+- Understand user requests.
+- Access company-specific information.
+- Perform business tasks.
+- Generate recommendations.
+- Automate workflows.
+
+The AI system consists of:
+
+- Large Language Model (LLM)
+- Agent Orchestration Layer
+- Tools
+- Memory System
+- Knowledge Base
+- Workflow Automation
+
+---
+
+# 12.2 AI Architecture Overview
+
+             User
+
+              |
+
+              ↓
+
+      BusinessOS Interface
+
+              |
+
+              ↓
+
+        FastAPI Backend
+
+              |
+
+              ↓
+
+      AI Agent Router
+
+              |
+
+ --------------------------------
+
+ |              |              |
+
+HR Agent Sales Agent Support Agent
+
+ |
+
+Marketing Agent
+
+              |
+
+              ↓
+
+         Gemini LLM
+
+              |
+
+ ------------------------------
+
+ |                            |
+
+RAG Memory External Tools
+
+
+
+---
+
+# 12.3 AI Agent Components
+
+Each AI agent contains:
+
+## 1. Agent Controller
+
+Responsible for:
+
+- Understanding user intent.
+- Selecting required actions.
+- Managing workflow execution.
+
+---
+
+## 2. Prompt System
+
+Contains:
+
+- System instructions.
+- Role-specific behavior.
+- Business rules.
+
+Example:
+
+HR Agent:
+
+
+You are an HR assistant.
+
+Your task is to analyze candidates,
+rank resumes, and provide hiring insights.
+
+
+---
+
+## 3. Tools
+
+Tools allow AI agents to perform actions.
+
+Examples:
+
+HR Agent tools:
+
+- Resume parser.
+- Candidate database search.
+- Interview scheduler.
+
+Sales Agent tools:
+
+- Lead search.
+- Email generator.
+- CRM update.
+
+Support Agent tools:
+
+- Knowledge search.
+- Ticket update.
+- Response generator.
+
+---
+
+## 4. Memory System
+
+AI agents use memory to maintain context.
+
+Types:
+
+### Short-Term Memory
+
+Stores:
+
+- Current conversation.
+- Current task.
+- User context.
+
+Example:
+
+
+User:
+Analyze this resume.
+
+AI:
+Processes uploaded resume.
+
+
+---
+
+### Long-Term Memory (RAG)
+
+Stores:
+
+- Company documents.
+- Policies.
+- Product information.
+- Previous knowledge.
+
+---
+
+# 12.4 HR Agent Architecture
+
+Purpose:
+
+Automate recruitment workflows.
+
+Flow:
+
+
+Resume Upload
+
+↓
+
+Document Processing
+
+↓
+
+Information Extraction
+
+↓
+
+Skill Analysis
+
+↓
+
+ATS Scoring
+
+↓
+
+Candidate Ranking
+
+↓
+
+Interview Recommendation
+
+
+Capabilities:
+
+- Resume parsing.
+- Skill extraction.
+- Candidate matching.
+- Interview questions generation.
+- Hiring recommendations.
+
+---
+
+# 12.5 Sales Agent Architecture
+
+Purpose:
+
+Assist sales teams.
+
+Flow:
+
+
+Lead Created
+
+↓
+
+Lead Analysis
+
+↓
+
+Customer Understanding
+
+↓
+
+Follow-up Recommendation
+
+↓
+
+Email Generation
+
+↓
+
+CRM Update
+
+
+Capabilities:
+
+- Lead qualification.
+- Sales suggestions.
+- Follow-up generation.
+- Customer insights.
+
+---
+
+# 12.6 Marketing Agent Architecture
+
+Purpose:
+
+Automate marketing activities.
+
+Flow:
+
+
+Marketing Goal
+
+↓
+
+Content Planning
+
+↓
+
+AI Generation
+
+↓
+
+Content Review
+
+↓
+
+Publishing Workflow
+
+
+Capabilities:
+
+- Social media content.
+- Blog generation.
+- Campaign ideas.
+- Advertisement copy.
+- Email campaigns.
+
+---
+
+# 12.7 Support Agent Architecture
+
+Purpose:
+
+Provide intelligent customer support.
+
+Flow:
+
+
+Customer Query
+
+↓
+
+Intent Detection
+
+↓
+
+RAG Knowledge Search
+
+↓
+
+Solution Generation
+
+↓
+
+Ticket Update
+
+
+Capabilities:
+
+- Customer query understanding.
+- FAQ answering.
+- Ticket classification.
+- Response generation.
+
+---
+
+# 12.8 AI Agent Router
+
+The router decides which agent handles a request.
+
+Example:
+
+User:
+
+
+Analyze this candidate resume
+
+
+Router:
+
+
+Request Type = Recruitment
+
+↓
+
+Send to HR Agent
+
+
+User:
+
+
+Create LinkedIn post
+
+
+Router:
+
+
+Request Type = Marketing
+
+↓
+
+Send to Marketing Agent
+
+
+---
+
+# 12.9 RAG Architecture
+
+Retrieval-Augmented Generation provides company-specific intelligence.
+
+Architecture:
+
+
+Company Documents
+
+    ↓
+
+Document Loader
+
+    ↓
+
+Text Splitter
+
+    ↓
+
+Embedding Model
+
+    ↓
+
+Vector Database
+
+    ↓
+
+Similarity Search
+
+    ↓
+
+Relevant Context
+
+    ↓
+
+Gemini LLM
+
+    ↓
+
+Final Response
+
+
+---
+
+# 12.10 AI Memory Database
+
+Memory storage:
+
+
+AI Memories Table
+
+id
+company_id
+user_id
+conversation_id
+content
+embedding
+created_at
+
+
+Purpose:
+
+- Store useful context.
+- Improve future responses.
+- Maintain company knowledge.
+
+---
+
+# 12.11 AI Workflow Example
+
+Example:
+
+"Find the best candidate for Python Developer role"
+
+Process:
+
+
+User Request
+
+↓
+
+FastAPI API
+
+↓
+
+HR Agent
+
+↓
+
+Search Candidates Database
+
+↓
+
+Retrieve Resumes
+
+↓
+
+AI Analysis
+
+↓
+
+Ranking Generation
+
+↓
+
+Return Results
+
+
+---
+
+# 12.12 AI Safety Controls
+
+The AI system includes:
+
+- Human approval for critical actions.
+- Restricted database access.
+- Tenant data isolation.
+- Input validation.
+- Output verification.
+
+---
+
+# 12.13 AI Technology Stack
+
+| Component | Technology |
+|-|-|
+| LLM | Gemini API |
+| Agent Framework | LangGraph |
+| AI Workflow | LangChain |
+| Vector Storage | pgvector |
+| Database | Supabase PostgreSQL |
+| Automation | n8n |
+
+---
+
+# 12.14 Future AI Improvements
+
+Future versions can include:
+
+- Voice AI assistant.
+- Autonomous task execution.
+- Advanced business analytics.
+- Predictive recommendations.
+- Custom AI agents per company.
