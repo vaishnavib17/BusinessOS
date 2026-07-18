@@ -662,3 +662,772 @@ Requirements:
 - Automated deployment using CI/CD.
 - Separate development and production environments.
 - Secure environment configuration.
+
+
+# 6. Technology Stack
+
+BusinessOS uses a modern full-stack architecture combining web technologies, cloud services, artificial intelligence, and automation tools.
+
+---
+
+# 6.1 Frontend Technology Stack
+
+## Next.js
+
+Purpose:
+- Build the user interface.
+- Provide server-side rendering capabilities.
+- Create scalable web application architecture.
+
+Why Next.js:
+
+- High performance.
+- Production-ready React framework.
+- Excellent routing system.
+- Strong developer ecosystem.
+
+---
+
+## React
+
+Purpose:
+- Build reusable UI components.
+- Manage interactive application interfaces.
+
+Usage:
+
+- Dashboard components.
+- Forms.
+- AI chat interfaces.
+- Data visualization.
+
+---
+
+## TypeScript
+
+Purpose:
+- Add static typing to JavaScript.
+
+Benefits:
+
+- Reduces runtime errors.
+- Improves code maintainability.
+- Better developer experience.
+
+---
+
+## Tailwind CSS
+
+Purpose:
+- Create responsive and modern UI designs.
+
+Usage:
+
+- Dashboard layouts.
+- Cards.
+- Forms.
+- Navigation components.
+
+---
+
+## Additional Frontend Libraries
+
+| Technology | Purpose |
+|------------|---------|
+| Axios | API communication |
+| React Hook Form | Form management |
+| Zod | Data validation |
+| Framer Motion | Animations |
+| Recharts | Analytics visualization |
+| Lucide React | UI icons |
+
+---
+
+# 6.2 Backend Technology Stack
+
+## FastAPI
+
+Purpose:
+- Develop backend APIs.
+- Handle business logic.
+- Manage communication between frontend and AI services.
+
+Why FastAPI:
+
+- High performance.
+- Python-based.
+- Built-in API documentation.
+- Easy AI integration.
+
+---
+
+## Python
+
+Purpose:
+
+- Backend development.
+- AI implementation.
+- Data processing.
+
+Usage:
+
+- API development.
+- AI agents.
+- Document processing.
+- Automation workflows.
+
+---
+
+## SQLAlchemy
+
+Purpose:
+
+- Database interaction using Object Relational Mapping (ORM).
+
+Benefits:
+
+- Cleaner database operations.
+- Maintainable code.
+- Database abstraction.
+
+---
+
+## Alembic
+
+Purpose:
+
+- Database schema migration management.
+
+Usage:
+
+- Creating tables.
+- Updating database structure.
+- Tracking schema changes.
+
+---
+
+# 6.3 Database Technology Stack
+
+## PostgreSQL
+
+Purpose:
+
+- Primary relational database.
+
+Stores:
+
+- Users.
+- Companies.
+- Employees.
+- Jobs.
+- Leads.
+- Tickets.
+- Campaigns.
+
+---
+
+## Supabase
+
+Purpose:
+
+- Managed PostgreSQL database platform.
+
+Provides:
+
+- Cloud PostgreSQL database.
+- Database management dashboard.
+- Secure database access.
+- Storage services.
+
+---
+
+## pgvector
+
+Purpose:
+
+- Store AI embeddings.
+- Enable semantic search for RAG.
+
+Usage:
+
+Company Documents:
+PDF
+↓
+Text Extraction
+↓
+Embeddings
+↓
+pgvector Storage
+↓
+AI Retrieval
+
+
+---
+
+# 6.4 Artificial Intelligence Stack
+
+## Gemini API
+
+Purpose:
+
+- Large Language Model for AI capabilities.
+
+Used for:
+
+- Text generation.
+- Analysis.
+- Summarization.
+- AI agent responses.
+
+---
+
+## LangChain
+
+Purpose:
+
+- Build AI workflows.
+- Connect language models with external tools.
+
+Usage:
+
+- Prompt management.
+- Document processing.
+- AI chains.
+
+---
+
+## LangGraph
+
+Purpose:
+
+- Build structured AI agent workflows.
+
+Used for:
+
+- HR Agent.
+- Sales Agent.
+- Marketing Agent.
+- Support Agent.
+
+---
+
+# 6.5 Automation Stack
+
+## n8n
+
+Purpose:
+
+- Workflow automation platform.
+
+Used for:
+
+- Email automation.
+- Calendar scheduling.
+- Notifications.
+- External API integrations.
+
+Example:
+Candidate Selected
+
+↓
+
+n8n Workflow
+
+↓
+
+Send Email
+
+↓
+
+Create Calendar Event
+
+
+---
+
+# 6.6 Authentication and Security Stack
+
+| Technology | Purpose |
+|------------|---------|
+| JWT | User authentication |
+| bcrypt | Password encryption |
+| RBAC | Permission management |
+| HTTPS | Secure communication |
+
+---
+
+# 6.7 DevOps Stack
+
+## Docker
+
+Purpose:
+
+- Containerize application services.
+
+Services:
+
+- Frontend container.
+- Backend container.
+- n8n container.
+
+Benefits:
+
+- Consistent development environment.
+- Easier deployment.
+- Better team collaboration.
+
+---
+
+## GitHub
+
+Purpose:
+
+- Source code management.
+- Team collaboration.
+- Version control.
+
+---
+
+## GitHub Actions
+
+Purpose:
+
+- Continuous Integration and Deployment.
+
+Used for:
+
+- Automated testing.
+- Code quality checks.
+- Deployment automation.
+
+---
+
+# 6.8 Deployment Stack
+
+| Component | Technology |
+|-----------|------------|
+| Frontend Hosting | Vercel |
+| Backend Hosting | Railway / Render |
+| Database | Supabase |
+| File Storage | Supabase Storage |
+| Automation | n8n |
+
+---
+
+# 6.9 Complete Technology Overview
+
+Frontend
+Next.js + React + TypeScript + Tailwind CSS
+
+↓
+
+Backend
+FastAPI + Python
+
+↓
+
+Database
+PostgreSQL + Supabase + pgvector
+
+↓
+
+AI Layer
+Gemini API + LangChain + LangGraph
+
+↓
+
+Automation
+n8n
+
+↓
+
+Infrastructure
+Docker + GitHub Actions
+
+
+# 7. System Architecture
+
+## 7.1 Overview
+
+BusinessOS follows a modular, scalable SaaS architecture.
+
+The system consists of:
+
+- Frontend Application
+- Backend API Layer
+- Database Layer
+- AI Agent Layer
+- Automation Layer
+- External Integration Layer
+
+The architecture follows a client-server model where the frontend communicates with backend APIs, and the backend manages business logic, data processing, and AI operations.
+
+---
+
+# 7.2 High-Level Architecture
+                Users
+                  |
+                  |
+                  ↓
+
+          Next.js Frontend
+      (Dashboard + Interfaces)
+
+                  |
+                  |
+          REST API Communication
+
+                  ↓
+
+          FastAPI Backend
+
+                  |
+    --------------------------------
+    |              |               |
+    ↓              ↓               ↓
+    PostgreSQL AI Agent Layer n8n
+    Database (Gemini) Automation
+    |              |               |
+    ↓              ↓               ↓
+    Business Data AI Processing External APIs
+
+
+---
+
+# 7.3 Frontend Architecture
+
+The frontend is responsible for:
+
+- User interface.
+- User interactions.
+- Data visualization.
+- API communication.
+- Authentication handling.
+
+Technology:
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+Frontend modules:
+frontend/
+
+app/
+|
+├── auth/
+├── dashboard/
+├── hr/
+├── sales/
+├── marketing/
+├── support/
+└── settings/
+
+components/
+services/
+hooks/
+utils/
+
+
+---
+
+# 7.4 Backend Architecture
+
+The backend acts as the core processing layer.
+
+Responsibilities:
+
+- Authentication.
+- Authorization.
+- Business logic.
+- Database operations.
+- AI agent communication.
+- External integrations.
+
+Architecture:
+FastAPI Backend
+    |
+    |
+    ↓
+API LAYER
+    |
+    |
+    ↓
+SERVICE LAYER
+    |
+    |
+    ↓
+DATABASE LAYER
+
+
+---
+
+# 7.5 Backend Internal Structure
+backend/
+
+app/
+
+├── api/
+│ ├── auth/
+│ ├── companies/
+│ ├── hr/
+│ ├── sales/
+│ ├── marketing/
+│ └── support/
+
+├── models/
+│
+├── schemas/
+│
+├── services/
+│
+├── agents/
+│
+├── db/
+│
+├── middleware/
+│
+└── utils/
+
+
+
+---
+
+# 7.6 AI Agent Architecture
+
+BusinessOS contains specialized AI agents.
+
+Each agent has:
+
+- Agent logic.
+- Prompt templates.
+- Tools.
+- Memory.
+- Database access.
+- Workflow handling.
+
+Architecture:
+             User Request
+
+                   |
+
+                   ↓
+
+             FastAPI API
+
+                   |
+
+                   ↓
+
+            AI Agent Router
+
+                   |
+
+    --------------------------------
+
+    |              |              |
+
+    HR Agent    Sales Agent   Support Agent
+
+    |
+
+    ↓
+
+ Gemini LLM
+
+    |
+
+    ↓
+Response / Action
+
+
+---
+
+# 7.7 Data Flow Architecture
+
+Example: Resume Analysis
+Candidate Uploads Resume
+      ↓
+Next.js Upload Interface
+      ↓
+FastAPI Endpoint
+      ↓
+File Storage 
+      ↓
+Resume Processing Service
+
+      ↓
+
+AI HR Agent
+
+      ↓
+
+Gemini Analysis
+
+      ↓
+
+Database Storage
+
+      ↓
+
+Dashboard Display
+
+
+---
+
+# 7.8 RAG Architecture
+
+BusinessOS uses Retrieval-Augmented Generation for company-specific intelligence.
+
+Flow:
+
+Company Documents
+
+    ↓
+
+Document Processing
+
+    ↓
+
+Text Chunking
+
+    ↓
+
+Embedding Generation
+
+    ↓
+
+Vector Database
+
+    ↓
+
+Similarity Search
+
+    ↓
+
+Gemini AI Response
+
+
+Purpose:
+
+- Give AI knowledge about each company.
+- Provide accurate business-specific answers.
+- Reduce hallucination.
+
+---
+
+# 7.9 Automation Architecture
+
+n8n handles background workflows.
+
+Example:
+
+
+New Candidate Applied
+
+    ↓
+
+FastAPI Event
+
+    ↓
+
+n8n Workflow
+
+    ↓
+
+Send Email
+
+    ↓
+
+Create Calendar Event
+
+    ↓
+
+Notify HR Manager
+
+
+---
+
+# 7.10 Security Architecture
+
+Security layers:
+
+
+User
+
+↓
+
+Authentication
+
+↓
+
+JWT Token
+
+↓
+
+Role Verification
+
+↓
+
+API Access
+
+↓
+
+Company Data Isolation
+
+↓
+
+Database
+
+
+---
+
+# 7.11 Deployment Architecture
+
+Production architecture:
+
+          Users
+
+            |
+
+            ↓
+
+      Vercel Hosting
+
+      (Next.js)
+
+
+            |
+
+            ↓
+
+
+    Railway / Render
+
+    (FastAPI)
+
+
+            |
+
+    ----------------
+
+    |              |
+
+Supabase n8n Server
+
+PostgreSQL Automation
+
+
+---
+
+# 7.12 Architecture Principles
+
+BusinessOS follows:
+
+- Modular design.
+- Scalable services.
+- Secure multi-tenancy.
+- API-first development.
+- AI-assisted automation.
+- Cloud-ready deployment.
+
