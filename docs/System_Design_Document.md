@@ -4984,3 +4984,534 @@ Future versions:
 - Advanced analytics.
 - Voice assistant interface.
 
+
+# 15. Backend Architecture Design
+
+## 15.1 Overview
+
+The BusinessOS backend is built using FastAPI and acts as the core processing layer of the application.
+
+The backend manages:
+
+- API requests.
+- Authentication.
+- Authorization.
+- Business logic.
+- Database operations.
+- AI agent communication.
+- External integrations.
+
+Technology Stack:
+
+- FastAPI
+- Python
+- SQLAlchemy
+- Alembic
+- PostgreSQL
+- Supabase
+- Pydantic
+
+---
+
+# 15.2 Backend Architecture
+
+BusinessOS follows a layered backend architecture.
+
+            Frontend
+
+               |
+
+               ↓
+
+          API Layer
+
+               |
+
+               ↓
+
+        Service Layer
+
+               |
+
+    ---------------------
+
+    |                   |
+
+Database Layer AI Agent Layer
+
+    |                   |
+
+    ↓                   ↓
+
+PostgreSQL Gemini AI
+
+
+---
+
+# 15.3 Backend Folder Structure
+
+
+backend/
+
+app/
+
+├── main.py
+
+├── api/
+│
+│ ├── auth/
+│ ├── companies/
+│ ├── users/
+│ ├── hr/
+│ ├── sales/
+│ ├── marketing/
+│ └── support/
+
+├── core/
+│
+│ ├── config.py
+│ ├── security.py
+│ └── settings.py
+
+├── db/
+│
+│ ├── database.py
+│ ├── session.py
+│ └── migrations/
+
+├── models/
+│
+│ ├── user.py
+│ ├── company.py
+│ ├── job.py
+│ └── ticket.py
+
+├── schemas/
+│
+│ ├── user.py
+│ ├── company.py
+│ └── response.py
+
+├── services/
+│
+│ ├── auth_service.py
+│ ├── hr_service.py
+│ ├── sales_service.py
+│ └── notification_service.py
+
+├── agents/
+│
+│ ├── hr_agent.py
+│ ├── sales_agent.py
+│ ├── marketing_agent.py
+│ └── support_agent.py
+
+├── middleware/
+
+│ ├── auth_middleware.py
+│ └── tenant_middleware.py
+
+└── utils/
+
+├── file_processing.py
+└── helpers.py
+
+---
+
+# 15.4 API Layer
+
+The API layer handles incoming requests.
+
+Responsibilities:
+
+- Define endpoints.
+- Validate input.
+- Authenticate users.
+- Call services.
+- Return responses.
+
+Example:
+
+
+User Request
+
+↓
+
+API Router
+
+↓
+
+Service Function
+
+↓
+
+Database / AI Agent
+
+↓
+
+Response
+
+
+---
+
+# 15.5 Router Structure
+
+BusinessOS separates APIs by modules.
+
+Example:
+
+
+api/
+
+auth/
+
+companies/
+
+hr/
+
+sales/
+
+marketing/
+
+support/
+
+
+Benefits:
+
+- Cleaner code.
+- Easier maintenance.
+- Independent module development.
+
+---
+
+# 15.6 Service Layer
+
+The service layer contains business logic.
+
+Example:
+
+HR Service:
+
+Responsibilities:
+
+- Resume processing.
+- Candidate ranking.
+- Job management.
+
+Flow:
+
+
+API Request
+
+↓
+
+HR Service
+
+↓
+
+Resume Processor
+
+↓
+
+AI Agent
+
+↓
+
+Database
+
+↓
+
+Response
+
+
+---
+
+# 15.7 Database Layer
+
+The database layer manages communication with PostgreSQL.
+
+Components:
+
+## SQLAlchemy ORM
+
+Used for:
+
+- Database models.
+- Queries.
+- Relationships.
+
+---
+
+## Alembic
+
+Used for:
+
+- Database migrations.
+- Schema updates.
+- Version control.
+
+Example:
+
+
+Create New Table
+
+↓
+
+Alembic Migration
+
+↓
+
+Update Database
+
+
+---
+
+# 15.8 AI Agent Layer
+
+The AI layer contains specialized agents.
+
+Structure:
+
+
+agents/
+
+├── hr_agent.py
+
+├── sales_agent.py
+
+├── marketing_agent.py
+
+└── support_agent.py
+
+
+Each agent contains:
+
+- Prompt logic.
+- Tool access.
+- AI workflows.
+- RAG retrieval.
+- Response generation.
+
+---
+
+# 15.9 Authentication Middleware
+
+Purpose:
+
+Protect backend APIs.
+
+Flow:
+
+
+Request
+
+↓
+
+JWT Middleware
+
+↓
+
+Validate Token
+
+↓
+
+Identify User
+
+↓
+
+Check Permission
+
+↓
+
+Allow Access
+
+
+---
+
+# 15.10 Tenant Middleware
+
+Purpose:
+
+Ensure company data isolation.
+
+Flow:
+
+
+Request
+
+↓
+
+Extract company_id
+
+↓
+
+Validate Company Access
+
+↓
+
+Apply Database Filter
+
+↓
+
+Return Data
+
+
+---
+
+# 15.11 File Processing Service
+
+Used for:
+
+- Resume uploads.
+- Document uploads.
+- AI knowledge processing.
+
+Flow:
+
+
+Upload File
+
+↓
+
+Validate File
+
+↓
+
+Extract Content
+
+↓
+
+Process Data
+
+↓
+
+Store Result
+
+
+---
+
+# 15.12 Background Processing
+
+Long operations should run asynchronously.
+
+Examples:
+
+- Resume analysis.
+- Document embeddings.
+- AI generation.
+- Email sending.
+
+Architecture:
+
+
+API Request
+
+↓
+
+Background Task
+
+↓
+
+Processing Worker
+
+↓
+
+Database Update
+
+↓
+
+Notification
+
+
+---
+
+# 15.13 Error Handling
+
+Backend provides centralized error handling.
+
+Handles:
+
+- Validation errors.
+- Authentication failures.
+- Database errors.
+- AI failures.
+- External API failures.
+
+Example response:
+
+```json
+{
+ "success": false,
+ "message": "Something went wrong"
+}
+15.14 Backend Security
+
+Security implementation:
+
+JWT authentication.
+Password hashing.
+Input validation.
+Environment variables.
+Secure database connection.
+API rate limiting.
+15.15 Backend Scalability
+
+Future scaling:
+
+Current:
+
+Single FastAPI Application
+
+Future:
+
+API Gateway
+
+↓
+
+Microservices
+
+↓
+
+Independent AI Services
+
+↓
+
+Distributed Workers
+15.16 Backend Development Workflow
+
+Development process:
+
+Create Feature
+
+↓
+
+Create Model
+
+↓
+
+Create Schema
+
+↓
+
+Create Service
+
+↓
+
+Create API Router
+
+↓
+
+Test API
+
+↓
+
+Deploy
+15.17 Backend Benefits
+
+This architecture provides:
+
+Clean code separation.
+Easier debugging.
+Faster feature development.
+Better scalability.
+AI integration flexibility.
