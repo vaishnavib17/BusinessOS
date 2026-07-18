@@ -5515,3 +5515,497 @@ Easier debugging.
 Faster feature development.
 Better scalability.
 AI integration flexibility.
+
+
+
+# 16. DevOps & Deployment Architecture
+
+## 16.1 Overview
+
+BusinessOS follows modern DevOps practices to automate development, testing, deployment, and monitoring.
+
+The DevOps architecture focuses on:
+
+- Containerization.
+- Continuous Integration.
+- Continuous Deployment.
+- Environment management.
+- Logging.
+- Monitoring.
+- Application reliability.
+
+Technology Stack:
+
+- Docker
+- Docker Compose
+- GitHub Actions
+- Vercel
+- Railway / Render
+- Supabase
+- n8n
+
+---
+
+# 16.2 Development Environment
+
+Developers run BusinessOS locally using:
+
+
+Developer Machine
+
+    |
+
+    ↓
+
+Visual Studio Code
+
+    |
+
+    ↓
+
+Docker Containers
+
+    |
+
+| | |
+
+Frontend Backend n8n
+
+    |
+
+    ↓
+
+Supabase Database
+
+
+---
+
+# 16.3 Docker Architecture
+
+Docker is used to create consistent development environments.
+
+Benefits:
+
+- Same environment for every developer.
+- Easy setup.
+- Dependency isolation.
+- Simplified deployment.
+
+---
+
+## Docker Services
+
+BusinessOS contains:
+
+
+Docker Environment
+
+├── Frontend Container
+
+│ Next.js
+
+├── Backend Container
+
+│ FastAPI
+
+├── Automation Container
+
+│ n8n
+
+└── Database
+
+   Supabase PostgreSQL
+
+---
+
+# 16.4 Docker Compose Architecture
+
+Docker Compose manages multiple services together.
+
+Example:
+
+
+docker-compose.yml
+
+services:
+
+frontend
+
+backend
+
+n8n
+
+
+Running the complete system:
+
+```bash
+docker compose up
+
+starts all services.
+
+16.5 Environment Management
+
+Sensitive information is stored using environment variables.
+
+Examples:
+
+.env
+
+DATABASE_URL=
+
+JWT_SECRET=
+
+GEMINI_API_KEY=
+
+SUPABASE_URL=
+
+SUPABASE_KEY=
+
+N8N_URL=
+
+Benefits:
+
+Protect secrets.
+Different environments.
+Secure deployment.
+16.6 CI/CD Pipeline
+
+BusinessOS uses Continuous Integration and Continuous Deployment.
+
+Pipeline:
+
+Developer
+
+↓
+
+Git Push
+
+↓
+
+GitHub Repository
+
+↓
+
+GitHub Actions
+
+↓
+
+Run Tests
+
+↓
+
+Build Application
+
+↓
+
+Deploy
+
+↓
+
+Production
+16.7 Continuous Integration (CI)
+
+CI automatically checks code quality.
+
+Steps:
+
+Code Commit
+
+↓
+
+Install Dependencies
+
+↓
+
+Run Tests
+
+↓
+
+Check Errors
+
+↓
+
+Generate Build
+
+
+Checks include:
+
+Python linting.
+TypeScript validation.
+Unit tests.
+API testing.
+16.8 Continuous Deployment (CD)
+
+CD automatically deploys approved changes.
+
+Flow:
+
+Successful Build
+
+↓
+
+Deployment Trigger
+
+↓
+
+Frontend Deployment
+
+↓
+
+Backend Deployment
+
+↓
+
+Update Production
+16.9 Deployment Architecture
+
+Production architecture:
+
+                 Users
+
+                   |
+
+                   ↓
+
+              Vercel
+
+          Next.js Frontend
+
+
+                   |
+
+                   ↓
+
+
+          Railway / Render
+
+           FastAPI Backend
+
+
+                   |
+
+        ---------------------
+
+        |                   |
+
+    Supabase             n8n
+
+   PostgreSQL          Automation
+
+16.10 Database Deployment
+
+Database:
+
+Supabase PostgreSQL
+
+Responsibilities:
+
+Store application data.
+Manage migrations.
+Provide backups.
+Enable secure connections.
+
+Database updates:
+
+Developer
+
+↓
+
+Alembic Migration
+
+↓
+
+Production Database
+16.11 n8n Deployment
+
+n8n handles automation workflows.
+
+Deployment:
+
+Docker Container
+
+        |
+
+        ↓
+
+       n8n
+
+        |
+
+        ↓
+
+External Integrations
+
+(Gmail, Calendar, Slack)
+16.12 Logging Architecture
+
+Logging tracks system activities.
+
+Logs include:
+
+Application Logs
+
+Examples:
+
+API requests.
+Errors.
+Warnings.
+User Activity Logs
+
+Examples:
+
+Login.
+Resume upload.
+Lead creation.
+Ticket updates.
+AI Logs
+
+Examples:
+
+AI requests.
+Token usage.
+Response time.
+16.13 Monitoring Architecture
+
+Monitoring ensures system health.
+
+Metrics:
+
+API availability.
+Response time.
+Server resources.
+Database performance.
+AI usage.
+
+Monitoring flow:
+
+Application
+
+↓
+
+Logs + Metrics
+
+↓
+
+Monitoring System
+
+↓
+
+Alerts
+
+↓
+
+Developer Response
+16.14 Error Tracking
+
+The system tracks:
+
+Backend errors.
+Failed API calls.
+AI failures.
+Integration failures.
+
+Example:
+
+Error Occurs
+
+↓
+
+Capture Error
+
+↓
+
+Store Log
+
+↓
+
+Notify Developer
+
+↓
+
+Fix Issue
+16.15 Security in Deployment
+
+Production security:
+
+HTTPS enabled.
+Environment secrets protected.
+Database access restricted.
+API authentication enabled.
+Regular dependency updates.
+16.16 Backup Strategy
+
+Backup includes:
+
+Database:
+
+Automated backups.
+Migration history.
+
+Files:
+
+Resume storage.
+Company documents.
+
+Recovery:
+
+Failure
+
+↓
+
+Restore Backup
+
+↓
+
+Verify Data
+
+↓
+
+Resume Service
+16.17 Deployment Workflow
+
+Complete workflow:
+
+Developer Writes Code
+
+↓
+
+Local Testing
+
+↓
+
+Git Commit
+
+↓
+
+GitHub Push
+
+↓
+
+CI Pipeline
+
+↓
+
+Build Verification
+
+↓
+
+Deployment
+
+↓
+
+Monitoring
+
+↓
+
+Production System
+
+16.18 DevOps Benefits
+
+This architecture provides:
+
+Faster releases.
+Fewer deployment errors.
+Better collaboration.
+Reliable production system.
+Easy scaling.
