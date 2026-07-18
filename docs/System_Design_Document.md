@@ -2397,3 +2397,358 @@ Company
 
 └── Subscription
 
+# 9. API Design
+
+## 9.1 API Overview
+
+BusinessOS follows a REST API architecture using FastAPI.
+
+The API layer acts as a communication bridge between:
+
+- Frontend application.
+- Database.
+- AI agents.
+- External integrations.
+
+Base URL:
+
+
+/api/v1
+
+
+Example:
+
+
+GET /api/v1/companies
+
+
+---
+
+# 9.2 API Design Principles
+
+The API follows:
+
+- REST architecture.
+- JSON-based communication.
+- Versioned endpoints.
+- Secure authentication.
+- Role-based authorization.
+- Standard error responses.
+
+---
+
+# 9.3 Authentication APIs
+
+## Register User
+
+
+POST /api/v1/auth/register
+
+
+Purpose:
+
+Create a new user account.
+
+Request:
+
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "company_name": "ABC Pvt Ltd"
+}
+
+Response:
+
+{
+  "message": "User registered successfully",
+  "user_id": "uuid"
+}
+Login User
+POST /api/v1/auth/login
+
+Purpose:
+
+Authenticate user.
+
+Request:
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+Response:
+
+{
+  "access_token": "jwt_token",
+  "token_type": "bearer"
+}
+Get Current User
+GET /api/v1/auth/me
+
+Returns:
+
+User details.
+Company information.
+Role permissions.
+9.4 Company APIs
+Create Company
+POST /api/v1/companies
+
+Purpose:
+
+Create business workspace.
+
+Request:
+
+{
+  "name": "ABC Technologies",
+  "industry": "Software"
+}
+Get Company Details
+GET /api/v1/companies/{company_id}
+
+Returns:
+
+Company information.
+Members.
+Statistics.
+Update Company
+PUT /api/v1/companies/{company_id}
+9.5 User Management APIs
+Invite Employee
+POST /api/v1/users/invite
+
+Purpose:
+
+Invite team members.
+
+List Company Users
+GET /api/v1/users
+
+Returns:
+
+Employees.
+Roles.
+Status.
+9.6 Dashboard APIs
+Dashboard Overview
+GET /api/v1/dashboard
+
+Returns:
+
+{
+  "employees": 50,
+  "open_jobs": 10,
+  "active_leads": 25,
+  "support_tickets": 15
+}
+9.7 HR Agent APIs
+Upload Resume
+POST /api/v1/hr/resumes/upload
+
+Input:
+
+Resume PDF file.
+
+Process:
+
+Upload
+
+↓
+
+Extract Text
+
+↓
+
+AI Analysis
+
+↓
+
+Store Result
+Analyze Candidate
+POST /api/v1/hr/candidates/{id}/analyze
+
+AI returns:
+
+{
+  "ats_score": 85,
+  "skills": [
+    "Python",
+    "Machine Learning"
+  ],
+  "recommendation": "Strong Candidate"
+}
+Create Job
+POST /api/v1/hr/jobs
+Get Candidates
+GET /api/v1/hr/candidates
+9.8 Sales Agent APIs
+Create Lead
+POST /api/v1/sales/leads
+
+Request:
+
+{
+  "name": "XYZ Company",
+  "email": "contact@xyz.com"
+}
+Update Lead Status
+PUT /api/v1/sales/leads/{id}
+AI Sales Assistant
+POST /api/v1/sales/assistant
+
+Input:
+
+{
+  "query": "How should I follow up with this lead?"
+}
+
+Output:
+
+AI recommendation.
+
+9.9 Marketing Agent APIs
+Generate Content
+POST /api/v1/marketing/generate
+
+Request:
+
+{
+  "content_type": "LinkedIn Post",
+  "topic": "AI Automation"
+}
+
+Response:
+
+{
+  "content": "Generated marketing copy"
+}
+Create Campaign
+POST /api/v1/marketing/campaigns
+9.10 Support Agent APIs
+Create Ticket
+POST /api/v1/support/tickets
+AI Support Response
+POST /api/v1/support/assistant
+
+Input:
+
+{
+  "message": "How do I reset my password?"
+}
+
+AI process:
+
+Question
+
+↓
+
+RAG Search
+
+↓
+
+Knowledge Retrieval
+
+↓
+
+AI Response
+9.11 AI APIs
+AI Chat
+POST /api/v1/ai/chat
+
+Purpose:
+
+General BusinessOS AI assistant.
+
+Request:
+
+{
+  "message": "Show sales performance"
+}
+Document Upload for RAG
+POST /api/v1/ai/documents/upload
+
+Process:
+
+PDF
+
+↓
+
+Text Extraction
+
+↓
+
+Chunking
+
+↓
+
+Embedding
+
+↓
+
+Vector Storage
+9.12 Notification APIs
+Get Notifications
+GET /api/v1/notifications
+Mark Notification Read
+PUT /api/v1/notifications/{id}
+9.13 API Response Format
+
+All APIs follow a common response structure.
+
+Success:
+
+{
+  "success": true,
+  "data": {},
+  "message": "Operation successful"
+}
+
+Error:
+
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_REQUEST",
+    "message": "Error description"
+  }
+}
+9.14 API Security
+
+All protected APIs require:
+
+Authorization: Bearer <JWT_TOKEN>
+
+Security layers:
+
+Request
+
+↓
+
+JWT Verification
+
+↓
+
+Role Check
+
+↓
+
+Company Access Check
+
+↓
+
+API Execution
+
+---
+
+Save and commit:
+
+```bash
+git add docs/System_Design_Document.md
+
+git commit -m "docs: add api design"
+
+git push origin main
