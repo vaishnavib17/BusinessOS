@@ -1431,3 +1431,410 @@ BusinessOS follows:
 - AI-assisted automation.
 - Cloud-ready deployment.
 
+
+# 8. Database Design
+
+## 8.1 Database Overview
+
+BusinessOS uses PostgreSQL as the primary relational database.
+
+The database is designed using a multi-tenant architecture where multiple companies can use the same platform while maintaining complete data isolation.
+
+Each business entity is connected to a specific company using `company_id`.
+
+Database Technology:
+
+- PostgreSQL
+- Supabase
+- SQLAlchemy ORM
+- Alembic migrations
+- pgvector for AI embeddings
+
+---
+
+# 8.2 Database Design Principles
+
+The database follows:
+
+## Multi-Tenant Architecture
+
+Every company has independent data.
+
+Example:
+
+
+Company A
+
+Users
+Jobs
+Candidates
+Leads
+Tickets
+
+Company B
+
+Users
+Jobs
+Candidates
+Leads
+Tickets
+
+
+Company A can never access Company B's data.
+
+---
+
+## UUID Primary Keys
+
+All tables use UUID identifiers.
+
+Benefits:
+
+- Better security.
+- Globally unique identifiers.
+- Suitable for distributed systems.
+
+---
+
+## Audit Fields
+
+Important tables contain:
+
+
+created_at
+updated_at
+created_by
+
+
+for tracking changes.
+
+---
+
+# 8.3 Entity Relationship Overview
+
+High-level relationship:
+
+                Companies
+
+                    |
+
+    ---------------------------------
+
+    |               |              |
+
+  Users          Jobs           Leads
+
+    |               |
+
+  Roles        Candidates
+
+                    |
+
+                Resumes
+
+
+    |
+
+ Employees
+
+
+    |
+
+Departments
+
+    |
+
+Documents
+
+    |
+
+Embeddings
+
+
+    |
+
+   AI RAG
+
+---
+
+# 8.4 Core Tables
+
+---
+
+# 1. Companies Table
+
+Stores registered businesses.
+
+Table:
+
+
+companies
+
+
+Schema:
+
+| Column | Type | Description |
+|---|---|---|
+| id | UUID | Primary key |
+| name | VARCHAR | Company name |
+| industry | VARCHAR | Business industry |
+| website | VARCHAR | Company website |
+| logo_url | TEXT | Company logo |
+| subscription_plan | VARCHAR | SaaS plan |
+| created_at | TIMESTAMP | Creation date |
+| updated_at | TIMESTAMP | Last update |
+
+---
+
+# 2. Users Table
+
+Stores platform users.
+
+Table:
+
+
+users
+
+
+Schema:
+
+| Column | Type | Description |
+|-|-|-|
+| id | UUID | Primary key |
+| company_id | UUID | Company reference |
+| role_id | UUID | Role reference |
+| full_name | VARCHAR | User name |
+| email | VARCHAR | Login email |
+| password_hash | TEXT | Encrypted password |
+| is_active | BOOLEAN | Account status |
+| created_at | TIMESTAMP | Creation date |
+
+Relationship:
+
+
+Company
+|
+|
+Many Users
+
+
+---
+
+# 3. Roles Table
+
+Stores user permissions.
+
+Table:
+
+
+roles
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| name | VARCHAR |
+| description | TEXT |
+
+Example roles:
+
+
+Super Admin
+Company Admin
+HR Manager
+Sales Manager
+Marketing Manager
+Support Manager
+Employee
+
+
+---
+
+# 4. Departments Table
+
+Stores company departments.
+
+Table:
+
+
+departments
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| name | VARCHAR |
+| description | TEXT |
+
+Examples:
+
+
+HR
+Sales
+Marketing
+Support
+Engineering
+
+
+---
+
+# 5. Employees Table
+
+Stores employee information.
+
+Table:
+
+
+employees
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| user_id | UUID |
+| department_id | UUID |
+| designation | VARCHAR |
+| joining_date | DATE |
+| status | VARCHAR |
+
+---
+
+# 8.5 HR Module Database
+
+The HR module contains:
+
+
+Jobs
+
+↓
+
+Applications
+
+↓
+
+Candidates
+
+↓
+
+Resumes
+
+↓
+
+Interviews
+
+
+---
+
+# 6. Jobs Table
+
+Stores job openings.
+
+Table:
+
+
+jobs
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| title | VARCHAR |
+| description | TEXT |
+| required_skills | JSON |
+| experience_required | VARCHAR |
+| status | VARCHAR |
+| created_at | TIMESTAMP |
+
+---
+
+# 7. Candidates Table
+
+Stores applicants.
+
+Table:
+
+
+candidates
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| company_id | UUID |
+| name | VARCHAR |
+| email | VARCHAR |
+| phone | VARCHAR |
+| skills | JSON |
+| experience | TEXT |
+
+---
+
+# 8. Resumes Table
+
+Stores uploaded resumes.
+
+Table:
+
+
+resumes
+
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| candidate_id | UUID |
+| file_url | TEXT |
+| extracted_text | TEXT |
+| ats_score | FLOAT |
+| ai_summary | TEXT |
+
+---
+
+# 9. Interviews Table
+
+Stores interview information.
+
+Schema:
+
+| Column | Type |
+|-|-|
+| id | UUID |
+| candidate_id | UUID |
+| interviewer_id | UUID |
+| scheduled_time | TIMESTAMP |
+| status | VARCHAR |
+
+---
+
+Save the file.
+
+Do NOT commit yet.
+
+---
+
+Next part of Section 8 will cover:
+
+- Sales tables
+- Marketing tables
+- Support tables
+- AI Memory (RAG) tables
+- Notifications
+- Activity Logs
+- Billing tables
+
+This will complete the full BusinessOS database architecture. 🚀
